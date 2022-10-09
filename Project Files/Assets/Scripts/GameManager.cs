@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [Header("Pause Controlling")]
     [SerializeField] private GameObject _pauseUI;
     [SerializeField] private GameObject _pauseButton;
+    private bool _gamePaused = false;
     [Space(5)]
 
     [Header("Brightness Controlling")]
@@ -52,10 +53,14 @@ public class GameManager : MonoBehaviour
     {
         if (!_pauseUI.activeSelf)
         {
+            _gamePaused = true;
+
             Time.timeScale = 0;
             _pauseUI.SetActive(true);
         } else
         {
+            _gamePaused = false;
+
             Time.timeScale = 1;
             _pauseUI.SetActive(false);
         }
@@ -107,21 +112,25 @@ public class GameManager : MonoBehaviour
     
     public void MoveToSides(int side)  // left: -1 | right: 1
     {
+        if (_gamePaused) return;
         CurrentBlock.MoveSidewards(side);
     }
 
     public void Rotate(int direction)
     {
+        if (_gamePaused) return;
         CurrentBlock.Rotate(direction);
     }
 
     public void Down()
     {
+        if (_gamePaused) return;
         Boosted = true;
     }
 
     public void DownReleased()
     {
+        if (_gamePaused) return;
         Boosted = false;
     }
     #endregion
